@@ -1,0 +1,29 @@
+    alpha = 250
+    beta = .1
+    gamma_r = 150
+    r0 = 1
+    c0 = 10
+    initial_vector = np.array([0, 500, 1000], dtype=int)
+
+    dilution0 = Classy.Reaction(np.array([-1, 0, 0], dtype=int), 0,
+                                'mobius_propensity', [0, beta, 1, 0], 1, [0])
+    dilution1 = Classy.Reaction(np.array([0, -1, 0], dtype=int), 1,
+                                'mobius_propensity', [0, beta, 1, 0], 1, [0])
+    dilution2 = Classy.Reaction(np.array([0, 0, -1], dtype=int), 2,
+                                'mobius_propensity', [0, beta, 1, 0], 1, [0])
+    degradation0 = Classy.Reaction(np.array([-1, 0, 0], dtype=int), 0,
+                                   'mobius_sum_propensity', [0, gamma_r, r0, 1], 1, [0])
+    degradation1 = Classy.Reaction(np.array([0, -1, 0], dtype=int), 1,
+                                   'mobius_sum_propensity', [0, gamma_r, r0, 1], 1, [0])
+    degradation2 = Classy.Reaction(np.array([0, 0, -1], dtype=int), 2,
+                                   'mobius_sum_propensity', [0, gamma_r, r0, 1], 1, [0])
+    production1 = Classy.Reaction(np.array([0, 1, 0], dtype=int), 0,
+                                  'decreasing_hill_propensity', [alpha, c0, 2], 0, [mu, mu * cv])
+    production0 = Classy.Reaction(np.array([1, 0, 0], dtype=int), 2,
+                                  'decreasing_hill_propensity', [alpha, c0, 2], 0, [mu, mu * cv])
+    production2 = Classy.Reaction(np.array([0, 0, 1], dtype=int), 1,
+                                  'decreasing_hill_propensity', [alpha, c0, 2], 0, [mu, mu * cv])
+
+    reaction_list = [production1, production0, production2,
+                     degradation0, degradation1, degradation2,
+                     dilution0, dilution1, dilution2]
